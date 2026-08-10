@@ -1,60 +1,366 @@
+/* ==========================================================================
+   KVASol — design tokens and global base styles
+   Palette derived from the official KVASol logo:
+   gold #DBA411 · green #1B6A1B · navy #0B2438
+   ========================================================================== */
+
 :root {
-  --ink: #071018;
-  --ink-soft: #0e1a28;
-  --mist: #c8d4e0;
-  --mist-dim: rgba(200, 212, 224, 0.62);
-  --sol: #f0a43a;
-  --sol-soft: rgba(240, 164, 58, 0.35);
-  --horizon: #1a3a4a;
+  /* Brand — deep navy / charcoal (authority, engineering credibility) */
+  --ink-950: #05121d;
+  --ink-900: #071a28;
+  --ink-800: #0b2438;
+  --ink-700: #123449;
+  --ink-600: #1d4761;
+
+  /* Text */
+  --text-strong: #0c1d2b;
+  --text-body: #33475a;
+  --text-muted: #5d7286; /* muted blue-grey for secondary + technical detail */
+  --text-on-dark: #e8eef4;
+  --text-on-dark-muted: #9fb2c2;
+
+  /* Surfaces */
+  --surface-0: #ffffff;
+  --surface-1: #f7f9fb;
+  --surface-2: #eef3f7;
+
+  /* Lines */
+  --line: #e2e9ef;
+  --line-strong: #ccd8e1;
+  --line-on-dark: rgba(232, 238, 244, 0.14);
+  --line-on-dark-strong: rgba(232, 238, 244, 0.28);
+
+  /* Accent — deep solar green */
+  --green-700: #145118;
+  --green-600: #1b6a21;
+  --green-500: #22812a;
+  --green-tint: #eef5ef;
+
+  /* Accent — restrained solar gold (energy highlights) */
+  --gold-700: #96690a;
+  --gold-600: #b8820d;
+  --gold-500: #dba411;
+  --gold-tint: #fdf6e6;
+
+  /* Feedback */
+  --danger: #b42318;
+  --danger-tint: #fef3f2;
+
+  /* Typography — IBM Plex Sans for text, IBM Plex Mono for technical labels */
+  --font-display: var(--font-plex-sans), "Segoe UI", system-ui, sans-serif;
+  --font-body: var(--font-plex-sans), "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "Cascadia Mono", monospace;
+
+  --step--1: clamp(0.8125rem, 0.79rem + 0.11vw, 0.875rem);
+  --step-0: clamp(0.9375rem, 0.91rem + 0.14vw, 1rem);
+  --step-1: clamp(1.0625rem, 1rem + 0.28vw, 1.1875rem);
+  --step-2: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+  --step-3: clamp(1.5rem, 1.32rem + 0.8vw, 2rem);
+  --step-4: clamp(1.75rem, 1.45rem + 1.4vw, 2.625rem);
+  --step-5: clamp(2.125rem, 1.6rem + 2.4vw, 3.5rem);
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --section-y: clamp(4.5rem, 8vw, 7.5rem);
+  --container: 1200px;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* Radii — small and technical, never bubbly */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Shadows — restrained */
+  --shadow-sm: 0 1px 2px rgba(7, 26, 40, 0.05);
+  --shadow-md: 0 8px 24px -12px rgba(7, 26, 40, 0.16);
+  --shadow-lg: 0 24px 60px -30px rgba(7, 26, 40, 0.3);
+
+  /* Layout */
+  --header-h: 76px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --header-h: 64px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html,
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+}
+
 body {
   min-height: 100%;
-}
-
-body {
-  font-family: var(--font-body), system-ui, sans-serif;
-  color: var(--mist);
-  background: var(--ink);
+  background: var(--surface-0);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--step-5);
+  font-weight: 700;
+}
+h2 {
+  font-size: var(--step-4);
+  font-weight: 700;
+}
+h3 {
+  font-size: var(--step-2);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+h4 {
+  font-size: var(--step-1);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img,
+svg,
+picture {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--green-600);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+::selection {
+  background: var(--green-600);
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Layout helpers
+   -------------------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skipLink {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 200;
+  transform: translate(-50%, -120%);
+  background: var(--ink-800);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.skipLink:focus-visible {
+  transform: translate(-50%, 0);
+}
+
+/* Subtle technical grid — used sparingly as a section backdrop */
+.gridPattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(11, 36, 56, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 36, 56, 0.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 20%, transparent 78%);
+}
+
+.gridPatternDark {
+  background-image:
+    linear-gradient(to right, rgba(232, 238, 244, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(232, 238, 244, 0.07) 1px, transparent 1px);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  transition:
+    background-color 0.22s var(--ease),
+    border-color 0.22s var(--ease),
+    color 0.22s var(--ease),
+    box-shadow 0.22s var(--ease),
+    transform 0.22s var(--ease);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.btnPrimary {
+  background: var(--green-600);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: var(--green-700);
+  box-shadow: 0 10px 22px -14px rgba(20, 81, 24, 0.85);
+  transform: translateY(-1px);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--text-strong);
+  border-color: var(--line-strong);
+}
+
+.btnSecondary:hover:not(:disabled) {
+  border-color: var(--ink-800);
+  background: var(--surface-1);
+}
+
+.btnOnDark {
+  background: transparent;
+  color: var(--text-on-dark);
+  border-color: var(--line-on-dark-strong);
+}
+
+.btnOnDark:hover:not(:disabled) {
+  border-color: rgba(232, 238, 244, 0.6);
+  background: rgba(232, 238, 244, 0.08);
+}
+
+.btnSm {
+  min-height: 42px;
+  padding: 0.5rem 1.125rem;
+  font-size: var(--step--1);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal — opt-in, and fully disabled for reduced-motion users
+   -------------------------------------------------------------------------- */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+}
+
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  to {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
-}
 
-@keyframes breath {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.04);
-  }
-}
-
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(2%, -1.5%, 0);
+  .btn:hover {
+    transform: none;
   }
 }

@@ -1,0 +1,129 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.card {
+  position: relative;
+  grid-column: span 2;
+  padding: clamp(1.5rem, 2.6vw, 2.125rem);
+  background: var(--surface-0);
+  transition: background-color 0.25s var(--ease);
+}
+
+/* Final two cards share the row evenly */
+.card:nth-child(4),
+.card:nth-child(5) {
+  grid-column: span 3;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--green-600);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease);
+}
+
+.card:hover {
+  background: var(--surface-1);
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  margin-bottom: 0.875rem;
+}
+
+.icon {
+  flex: none;
+  margin-top: 0.1em;
+  color: var(--gold-600);
+}
+
+.title {
+  font-size: var(--step-1);
+}
+
+.description {
+  font-size: var(--step--1);
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 52ch;
+}
+
+.statement {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--ink-800);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--gold-500);
+}
+
+.statementIcon {
+  flex: none;
+  color: var(--gold-500);
+}
+
+.statement p {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: #fff;
+  max-width: 46ch;
+  text-wrap: balance;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card,
+  .card:nth-child(4),
+  .card:nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .card:nth-child(5) {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card,
+  .card:nth-child(4),
+  .card:nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .statement {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

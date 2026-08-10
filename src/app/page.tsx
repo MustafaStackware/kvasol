@@ -1,20 +1,36 @@
-import styles from "./page.module.css";
+import { About } from "@/components/About";
+import { Contact } from "@/components/Contact";
+import { EPCProcess } from "@/components/EPCProcess";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { Hero } from "@/components/Hero";
+import { LeadershipTeam } from "@/components/LeadershipTeam";
+import { Markets } from "@/components/Markets";
+import { Services } from "@/components/Services";
+import { TechnicalStrengths } from "@/components/TechnicalStrengths";
+import { TrustStrip } from "@/components/TrustStrip";
+import { WhyKVASol } from "@/components/WhyKVASol";
 
 export default function Home() {
   return (
-    <main className={styles.page}>
-      <div className={styles.sky} aria-hidden="true">
-        <div className={`${styles.glow} ${styles.glowA}`} />
-        <div className={`${styles.glow} ${styles.glowB}`} />
-        <div className={styles.grain} />
-        <div className={styles.horizon} />
-      </div>
-
-      <div className={styles.content}>
-        <p className={styles.brand}>KVASol</p>
-        <h1 className={styles.headline}>Something new is coming.</h1>
-        <p className={styles.sub}>Stay tuned.</p>
-      </div>
-    </main>
+    <>
+      <a href="#main" className="skipLink">
+        Skip to main content
+      </a>
+      <Header />
+      <main id="main">
+        <Hero />
+        <TrustStrip />
+        <About />
+        <Services />
+        <EPCProcess />
+        <WhyKVASol />
+        <TechnicalStrengths />
+        <Markets />
+        <LeadershipTeam />
+        <Contact />
+      </main>
+      <Footer />
+    </>
   );
 }
