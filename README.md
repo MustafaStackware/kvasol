@@ -29,6 +29,7 @@ Pushes to `main` trigger the **Deploy to GitHub Pages** workflow. Custom domain:
 | Sections                      | `src/components/*`                          |
 | Enquiry form delivery         | `src/lib/enquiry.ts`                        |
 | SEO metadata / structured data | `src/app/layout.tsx`, `src/lib/structuredData.ts` |
+| `robots.txt`, `sitemap.xml`, `llms.txt` | `src/app/robots.ts`, `src/app/sitemap.ts`, `src/app/llms.txt/route.ts` |
 | Original artwork (not deployed) | `design-assets/`                          |
 
 ## Connecting the enquiry form
@@ -45,8 +46,7 @@ See `.env.example`. The value is inlined into the static bundle, so never put a 
 
 ## Still needed from KVASol
 
-- Official email address, WhatsApp/phone number, office address (`contact` in `src/content/site.ts`)
-- Instagram / Facebook / X URLs — social icons only render once a real URL is set
+- Instagram / X URLs — those icons only render once a real URL is set
 - Enquiry-form delivery endpoint (above)
 - Privacy Policy and Terms pages — currently rendered unlinked in the footer
 - Reversed (dark-background) logo variant — the footer uses a text wordmark in its place

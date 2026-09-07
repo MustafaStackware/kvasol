@@ -1,10 +1,6 @@
 import { contact, services, site, team, technicalStrengths } from "@/content/site";
 
-/**
- * Organisation-level structured data. Postal address and telephone are
- * deliberately absent until KVASol supplies confirmed details — publishing
- * placeholder contact points would be worse than publishing none.
- */
+/** Organisation-level structured data. Every value here is client-confirmed. */
 export function buildStructuredData() {
   return {
     "@context": "https://schema.org",
@@ -19,7 +15,17 @@ export function buildStructuredData() {
         image: `${site.url}/og-image.jpg`,
         description: site.description,
         slogan: "Engineering reliable energy and infrastructure solutions",
-        sameAs: [contact.linkedin],
+        sameAs: contact.social
+          .map((profile) => profile.href)
+          .filter((href): href is string => Boolean(href)),
+        email: contact.email ?? undefined,
+        telephone: contact.whatsapp.map((line) => line.number),
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Office 233, Floor 2, Luxus Mall & Residency, Gulberg Greens",
+          addressLocality: "Islamabad",
+          addressCountry: "PK",
+        },
         areaServed: { "@type": "Country", name: "Pakistan" },
         knowsAbout: technicalStrengths.items,
         makesOffer: services.items.map((service) => ({

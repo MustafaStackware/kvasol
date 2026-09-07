@@ -6,18 +6,35 @@ import { Section } from "./Section";
 import styles from "./Contact.module.css";
 import type { IconName } from "./Icon";
 
+type MethodValue = { text: string; href: string | null };
+
 type Method = {
   label: string;
   icon: IconName;
-  value: string | null;
-  href: string | null;
+  values: MethodValue[];
 };
 
 const methods: Method[] = [
-  { label: "Email", icon: "mail", value: contact.email, href: contact.email ? `mailto:${contact.email}` : null },
-  { label: "WhatsApp", icon: "whatsapp", value: contact.whatsapp, href: contact.whatsappLink },
-  { label: "Office", icon: "map-pin", value: contact.office, href: null },
-  { label: "Company LinkedIn", icon: "linkedin", value: "linkedin.com/company/kvasol", href: contact.linkedin },
+  {
+    label: "Email",
+    icon: "mail",
+    values: contact.email ? [{ text: contact.email, href: `mailto:${contact.email}` }] : [],
+  },
+  {
+    label: "WhatsApp",
+    icon: "whatsapp",
+    values: contact.whatsapp.map((line) => ({ text: line.number, href: line.link })),
+  },
+  {
+    label: "Office",
+    icon: "map-pin",
+    values: contact.office ? [{ text: contact.office, href: contact.officeMapLink }] : [],
+  },
+  {
+    label: "Company LinkedIn",
+    icon: "linkedin",
+    values: [{ text: "linkedin.com/company/kvasol", href: contact.linkedin }],
+  },
 ];
 
 export function Contact() {
@@ -39,21 +56,28 @@ export function Contact() {
                 </span>
                 <span className={styles.methodBody}>
                   <span className={styles.methodLabel}>{method.label}</span>
-                  {method.value && method.href ? (
-                    <a
-                      className={styles.methodValue}
-                      href={method.href}
-                      {...(method.href.startsWith("http")
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                    >
-                      {method.value}
-                    </a>
-                  ) : method.value ? (
-                    <span className={styles.methodValue}>{method.value}</span>
-                  ) : (
+                  {method.values.length === 0 ? (
                     /* Awaiting confirmed details from KVASol — never invented. */
                     <span className={styles.pending}>{PLACEHOLDER}</span>
+                  ) : (
+                    method.values.map((value) =>
+                      value.href ? (
+                        <a
+                          key={value.text}
+                          className={styles.methodValue}
+                          href={value.href}
+                          {...(value.href.startsWith("http")
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                        >
+                          {value.text}
+                        </a>
+                      ) : (
+                        <span key={value.text} className={styles.methodValue}>
+                          {value.text}
+                        </span>
+                      ),
+                    )
                   )}
                 </span>
               </li>

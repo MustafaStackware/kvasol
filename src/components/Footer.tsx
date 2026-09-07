@@ -5,10 +5,23 @@ import styles from "./Footer.module.css";
 
 const year = new Date().getFullYear();
 
-const contactRows = [
-  { label: "Email", value: contact.email, href: contact.email ? `mailto:${contact.email}` : null },
-  { label: "WhatsApp", value: contact.whatsapp, href: contact.whatsappLink },
-  { label: "Office", value: contact.office, href: null },
+const contactRows: { label: string; values: { text: string; href: string | null }[] }[] = [
+  {
+    label: "Email",
+    values: contact.email ? [{ text: contact.email, href: `mailto:${contact.email}` }] : [],
+  },
+  {
+    label: "WhatsApp",
+    values: contact.whatsapp.map((line) => ({ text: line.number, href: line.link })),
+  },
+  {
+    label: "Office",
+    values: contact.office ? [{ text: contact.office, href: contact.officeMapLink }] : [],
+  },
+  {
+    label: "LinkedIn",
+    values: [{ text: "linkedin.com/company/kvasol", href: contact.linkedin }],
+  },
 ];
 
 export function Footer() {
@@ -64,29 +77,31 @@ export function Footer() {
               {contactRows.map((row) => (
                 <li key={row.label}>
                   <span className={styles.contactLabel}>{row.label}</span>
-                  {row.value && row.href ? (
-                    <a className={styles.link} href={row.href}>
-                      {row.value}
-                    </a>
-                  ) : row.value ? (
-                    <span className={styles.contactValue}>{row.value}</span>
-                  ) : (
+                  {row.values.length === 0 ? (
                     /* Awaiting confirmed details from KVASol */
                     <span className={styles.pending}>{PLACEHOLDER}</span>
+                  ) : (
+                    row.values.map((value) =>
+                      value.href ? (
+                        <a
+                          key={value.text}
+                          className={styles.link}
+                          href={value.href}
+                          {...(value.href.startsWith("http")
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                        >
+                          {value.text}
+                        </a>
+                      ) : (
+                        <span key={value.text} className={styles.contactValue}>
+                          {value.text}
+                        </span>
+                      ),
+                    )
                   )}
                 </li>
               ))}
-              <li>
-                <span className={styles.contactLabel}>LinkedIn</span>
-                <a
-                  className={styles.link}
-                  href={contact.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  linkedin.com/company/kvasol
-                </a>
-              </li>
             </ul>
           </div>
         </div>

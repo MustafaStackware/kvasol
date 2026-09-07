@@ -16,20 +16,25 @@ export const site = {
 } as const;
 
 /* -------------------------------------------------------------------------- */
-/* Contact — awaiting client-supplied details                                 */
+/* Contact                                                                    */
 /* -------------------------------------------------------------------------- */
 
 export const contact = {
-  email: null as string | null,
-  whatsapp: null as string | null,
-  whatsappLink: null as string | null,
-  office: null as string | null,
+  email: "info@kvasol.com" as string | null,
+  whatsapp: [
+    { number: "+92 346 5365607", link: "https://wa.me/923465365607" },
+    { number: "+92 300 0171276", link: "https://wa.me/923000171276" },
+  ],
+  office:
+    "Office 233, Floor 2, Luxus Mall & Residency, Gulberg Greens, Islamabad, Pakistan",
+  officeMapLink:
+    "https://www.google.com/maps/search/?api=1&query=Luxus+Mall+%26+Residency+Gulberg+Greens+Islamabad",
   linkedin: "https://www.linkedin.com/company/kvasol",
   /** Social profiles are rendered only once a real URL is supplied. */
   social: [
     { label: "LinkedIn", href: "https://www.linkedin.com/company/kvasol", icon: "linkedin" },
+    { label: "Facebook", href: "https://www.facebook.com/KVASOL", icon: "facebook" },
     { label: "Instagram", href: null, icon: "instagram" },
-    { label: "Facebook", href: null, icon: "facebook" },
     { label: "X", href: null, icon: "x" },
   ] as { label: string; href: string | null; icon: IconName }[],
 } as const;
