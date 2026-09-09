@@ -36,6 +36,12 @@ jobs:
 
       - name: Build with Next.js
         run: npm run build
+        env:
+          # Optional enquiry-form delivery. Set either as a repository variable
+          # under Settings > Secrets and variables > Actions > Variables.
+          # With both empty, the form opens the visitor's email application.
+          NEXT_PUBLIC_WEB3FORMS_KEY: ${{ vars.NEXT_PUBLIC_WEB3FORMS_KEY }}
+          NEXT_PUBLIC_ENQUIRY_ENDPOINT: ${{ vars.NEXT_PUBLIC_ENQUIRY_ENDPOINT }}
 
       - name: Verify static export
         run: |

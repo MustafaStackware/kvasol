@@ -3,7 +3,8 @@
 import { useId, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { contactSection } from "@/content/site";
 import {
-  isEnquiryDeliveryConfigured,
+  enquiryDelivery,
+  enquiryEmail,
   submitEnquiry,
   type EnquiryPayload,
 } from "@/lib/enquiry";
@@ -12,7 +13,7 @@ import styles from "./ContactForm.module.css";
 
 type FieldName = keyof EnquiryPayload;
 type Errors = Partial<Record<FieldName, string>>;
-type Status = "idle" | "submitting" | "sent" | "unconfigured" | "error";
+type Status = "idle" | "submitting" | "sent" | "handoff" | "error";
 
 const emptyForm: EnquiryPayload = {
   fullName: "",
@@ -58,6 +59,7 @@ export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [mailtoHref, setMailtoHref] = useState("");
 
   const fieldId = (name: FieldName) => `${uid}-${name}`;
   const errorId = (name: FieldName) => `${uid}-${name}-error`;
@@ -95,8 +97,12 @@ export function ContactForm() {
       setSubmitted(false);
       return;
     }
-    if (result.status === "unconfigured") {
-      setStatus("unconfigured");
+    if (result.status === "mailto") {
+      /* No delivery service configured: hand the completed enquiry to the
+         visitor's email client, pre-addressed to the company inbox. */
+      setMailtoHref(result.href);
+      setStatus("handoff");
+      window.location.href = result.href;
       return;
     }
     setErrorMessage(result.message);
@@ -120,6 +126,36 @@ export function ContactForm() {
           <button type="button" className="btn btnSecondary" onClick={() => setStatus("idle")}>
             Submit another enquiry
           </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "handoff") {
+    return (
+      <div className={styles.card}>
+        <div className={styles.result} role="status">
+          <span className={`${styles.resultIcon} ${styles.resultIconOk}`} aria-hidden="true">
+            <Icon name="mail" size={28} />
+          </span>
+          <h3 className={styles.resultTitle}>Your enquiry is ready to send</h3>
+          <p className={styles.resultText}>
+            Your email application should now be open with your enquiry addressed to{" "}
+            <strong>{enquiryEmail}</strong>. Press send there to complete your enquiry.
+          </p>
+          <div className={styles.resultActions}>
+            <a href={mailtoHref} className="btn btnPrimary">
+              Open my email application again
+              <Icon name="arrow-right" size={18} />
+            </a>
+            <button type="button" className="btn btnSecondary" onClick={() => setStatus("idle")}>
+              Back to the form
+            </button>
+          </div>
+          <p className={styles.resultNote}>
+            If nothing opened, your device may not have an email application configured. You can
+            reach us on WhatsApp instead, using the numbers listed on this page.
+          </p>
         </div>
       </div>
     );
@@ -307,23 +343,15 @@ export function ContactForm() {
             )}
           </button>
 
-          {!isEnquiryDeliveryConfigured && (
+          {enquiryDelivery === "mailto" && enquiryEmail && (
             <p className={styles.notice}>
-              Online enquiry delivery is currently being configured, so this form cannot send yet.
+              Submitting opens your email application with these details addressed to{" "}
+              {enquiryEmail}.
             </p>
           )}
         </div>
 
         <div aria-live="polite" className={styles.live}>
-          {status === "unconfigured" && (
-            <p className={`${styles.status} ${styles.statusWarn}`}>
-              <Icon name="alert" size={18} />
-              <span>
-                Your details were validated but <strong>not sent</strong> — enquiry delivery is not
-                connected yet. Please use the contact details listed on this page instead.
-              </span>
-            </p>
-          )}
           {status === "error" && (
             <p className={`${styles.status} ${styles.statusError}`} role="alert">
               <Icon name="alert" size={18} />
