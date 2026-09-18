@@ -159,3 +159,28 @@
     gap: 2.25rem;
   }
 }
+
+/* Developer credit — deliberately quiet so it stays secondary to the KVASol brand */
+.credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-size: 0.8125rem;
+  color: var(--text-on-dark-muted);
+  opacity: 0.75;
+  transition:
+    opacity 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+.credit:hover,
+.credit:focus-visible {
+  opacity: 1;
+  color: var(--text-on-dark);
+}
+
+.creditLogo {
+  display: block;
+  width: auto;
+  height: 0.9375rem;
+}

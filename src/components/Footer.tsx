@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { PLACEHOLDER, contact, footer, navLinks, site } from "@/content/site";
 import { Icon } from "./Icon";
 import { Wordmark } from "./Wordmark";
@@ -128,6 +130,23 @@ export function Footer() {
               ),
             )}
           </ul>
+          <a
+            className={styles.credit}
+            href="https://stackware.co.uk/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Powered by Stackware (opens in a new tab)"
+          >
+            <span>Powered by</span>
+            {/* Logo artwork already carries the Stackware wordmark */}
+            <Image
+              src="/Stackware%20Logo%20Transparent.png"
+              alt="Stackware"
+              width={1925}
+              height={376}
+              className={styles.creditLogo}
+            />
+          </a>
         </div>
       </div>
     </footer>
